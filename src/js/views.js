@@ -193,7 +193,9 @@ var View = function (selector, params) {
             if (dynamicNavbar) {
                 activeNavbar = container.find('.navbar-on-center:not(.cached)');
                 previousNavbar = container.find('.navbar-on-left:not(.cached)');
-                activeNavElements = activeNavbar.find('.left, .center, .right, .subnavbar, .fading');
+                //elledienne edit
+                activeNavElements = activeNavbar.find('.left, .center, .right, .subnavbar, .fading, .searchbar');
+                //fine
                 previousNavElements = previousNavbar.find('.left, .center, .right, .subnavbar, .fading');
                 if (app.params.animateNavBackIcon) {
                     activeNavBackIcon = activeNavbar.find('.left.sliding .back .icon');
@@ -307,6 +309,12 @@ var View = function (selector, params) {
             }
             pageChanged = true;
         }
+        //elledienne edit
+        if (view.params.onSwipeBackEnd) {
+            view.params.onSwipeBackEnd(pageChanged, activePage[0]);
+        }
+        //fine edit
+
         // Reset custom styles
         // Add transitioning class for transition-duration
         $([activePage[0], previousPage[0]]).transform('').css({opacity: '', boxShadow: ''}).addClass('page-transitioning');
@@ -359,6 +367,11 @@ var View = function (selector, params) {
             allowViewTouchMove = true;
             view.allowPageChange = true;
             if (pageChanged) {
+                //elledienne edit
+                if (view.params.onSwipeBackTransitionEnd) {
+                    view.params.onSwipeBackTransitionEnd(activePage[0]);
+                }
+                //fine edit
                 if (app.params.pushState) history.back();
                 // Page after animation callback
                 app.pageBackCallbacks('after', view, {pageContainer: activePage[0], url: url, position: 'center', newPage: previousPage, oldPage: activePage, swipeBack: true});
